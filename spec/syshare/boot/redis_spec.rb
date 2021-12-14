@@ -35,6 +35,7 @@ module Syshare
           end
         end
 
+				app[:redis].ping
         expect(app[:redis]._client.connection).to be_a(Redis::Connection::Ruby)
       end
 
