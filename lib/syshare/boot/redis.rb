@@ -34,7 +34,7 @@ module Syshare
         register("redis.pool", pool)
         register("redis", ConnectionPool::Wrapper.new(pool: pool))
       else
-        register("redis", Redis.new(redis_config.to_h))
+        register("redis", Redis.new(redis_conf.to_h))
       end
     end
 
