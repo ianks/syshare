@@ -25,16 +25,17 @@ module Syshare
     end
 
     start do
+      redis_conf = config.to_h
+      redis_conf[:logger] = target.logger if target.respond_to?(:logger)
+
       if config.use_connection_pool
         pool_config = {size: config.pool_size, timeout: config.pool_timeout}
-        pool = ConnectionPool.new(pool_config) { Redis.new(config.to_h) }
+        pool = ConnectionPool.new(pool_config) { Redis.new(redis_conf.to_h) }
         register("redis.pool", pool)
         register("redis", ConnectionPool::Wrapper.new(pool: pool))
       else
-        register("redis", Redis.new(config.to_h))
+        register("redis", Redis.new(redis_config.to_h))
       end
-
-      redis.ping
     end
 
     stop do

@@ -37,6 +37,23 @@ module Syshare
 
         expect(app[:redis]._client.connection).to be_a(Redis::Connection::Ruby)
       end
+
+      it "sets up the logger if one is configured" do
+        require "logger"
+
+        output = StringIO.new
+
+        app = Class.new(Dry::System::Container) do
+          use :logging
+          configure { config.logger = Logger.new(output) }
+          boot(:redis, from: :syshare)
+        end
+
+        app[:redis].ping
+        output.rewind
+
+        expect(output.read).to match(/command=PING/)
+      end
     end
   end
 end
