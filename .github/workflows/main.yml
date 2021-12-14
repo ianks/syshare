@@ -35,5 +35,3 @@ jobs:
         bundler-cache: true
     - name: Run the default task
       run: bundle exec rake
-      env:
-        REDIS_URL: "redis://redis:6379/0"
