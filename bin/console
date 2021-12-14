@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "syshare"
+
+require "dry/system/container"
+require "syshare/components"
+
+class App < Dry::System::Container
+	boot(:redis, from: :syshare) do
+		configure do |config|
+			config.use_connection_pool = true
+			config.driver = 'ruby'
+		end
+	end
+end
+
+App[:redis]
+
+require "pry"
+Pry.start
