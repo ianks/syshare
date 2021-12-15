@@ -56,6 +56,24 @@ module Syshare
 
         expect(output.read).to match(/command=PING/)
       end
+
+      it "warns nicely when the driver gem is not available" do
+        require "logger"
+
+        app = Class.new(Dry::System::Container) do
+          boot(:redis, from: :syshare) do
+            configure do |config|
+              config.driver = "synchrony"
+            end
+          end
+        end
+
+        expect do
+          app[:redis]
+        rescue LoadError
+          nil
+        end.to output(/The em-synchrony gem is not available/).to_stderr
+      end
     end
   end
 end

@@ -22,8 +22,8 @@ module Syshare
     end
 
     init do
-      require "dalli"
-      require "connection_pool" if config.use_connection_pool
+      Syshare.require_gem "dalli"
+      Syshare.require_gem "connection_pool" if config.use_connection_pool
     end
 
     start do

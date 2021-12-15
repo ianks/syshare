@@ -15,12 +15,14 @@ module Syshare
     end
 
     init do
-      require "redis"
-      require "connection_pool" if config.use_connection_pool
+      Syshare.require_gem "redis"
+      Syshare.require_gem "connection_pool" if config.use_connection_pool
 
       case config.driver
-      when "synchrony" then require("em-synchrony")
-      when "hiredis" then require("hiredis")
+      when "synchrony"
+        Syshare.require_gem("em-synchrony")
+      when "hiredis"
+        Syshare.require_gem("hiredis")
       end
     end
 
