@@ -40,6 +40,33 @@ end
 App[:redis].ping # => "PONG"
 ```
 
+### Dalli
+
+The `Dalli` component sets up a connection to a Memcached server with a few bonuses:
+
+- Sets up sane defaults for timeouts
+- Uses a a connection pool by default
+- Adds a logger if one is available on the app container
+
+[View All Settings](https://github.com/ianks/syshare/blob/main/lib/syshare/boot/dalli.rb#L5)
+
+```ruby
+require 'dry/system/container'
+require 'syshare'
+
+class App < Dry::System::Container
+  boot(:dalli, from: :syshare) do
+    configure do |config|
+      config.expires_in = 3600 # 1 hour
+    end
+  end
+end
+
+# Later in your code...
+App[:dalli].set("abc", 123)
+App[:dalli].get("abc") # => 123
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

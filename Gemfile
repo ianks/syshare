@@ -18,3 +18,5 @@ gem "hiredis", "~> 0.6.3"
 gem "connection_pool", "~> 2.2"
 
 gem "pry", "~> 0.14.1"
+
+gem "dalli", "~> 3.1"
